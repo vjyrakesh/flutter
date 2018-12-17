@@ -4,12 +4,22 @@ import 'dart:async';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  MyAppState createState() => MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My device information',
+      home: MyDeviceInfo(),
+    );
+  }
 }
 
-class MyAppState extends State<MyApp> {
+class MyDeviceInfo extends StatefulWidget {
+  @override
+  MyDeviceInfoState createState() => MyDeviceInfoState();
+}
+
+class MyDeviceInfoState extends State<MyDeviceInfo> {
   DeviceInfoPlugin _deviceInfoPlugin;
   @override
   void initState() {
