@@ -29,9 +29,7 @@ class MyDeviceInfoState extends State<MyDeviceInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Device Info',
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('My Device Info'),
         ),
@@ -44,13 +42,25 @@ class MyDeviceInfoState extends State<MyDeviceInfo> {
               );
             } else {
               final androidDeviceInfo = snapshot.data;
-              return Center(
-                child: Text('Android build version: ${androidDeviceInfo.version.release}'),
-              );
+                return ListView(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android build version: ${androidDeviceInfo.version.release}'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android device: ${androidDeviceInfo.device}'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android device hardware: ${androidDeviceInfo.hardware}'),
+                    )
+                  ],
+                );
             }
           },
         ),
-      ),
     );
   }
 }
