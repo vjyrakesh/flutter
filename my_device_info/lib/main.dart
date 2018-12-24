@@ -42,22 +42,30 @@ class MyDeviceInfoState extends State<MyDeviceInfo> {
               );
             } else {
               final androidDeviceInfo = snapshot.data;
-                return ListView(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android build version: ${androidDeviceInfo.version.release}'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android device: ${androidDeviceInfo.device}'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android device hardware: ${androidDeviceInfo.hardware}'),
+
+              return ListView(
+                children: <Widget>[
+                  Card(
+                    child: ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Android build version: ${androidDeviceInfo.version.release}',
+                    style: TextStyle(fontSize: 18.0),),
                     )
-                  ],
-                );
+                  ),
+                  Card(
+                    child: ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android device: ${androidDeviceInfo.device}', style: TextStyle(fontSize: 18.0),),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android device hardware: ${androidDeviceInfo.hardware}', style: TextStyle(fontSize: 18.0),),
+                    )
+                  )
+                ],
+              );
             }
           },
         ),
