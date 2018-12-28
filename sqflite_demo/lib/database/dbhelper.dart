@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io' as io;
+import 'dart:typed_data';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_demo/model/item.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class DBHelper {
   static Database _db;
@@ -16,8 +19,11 @@ class DBHelper {
 
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "test.db");
-    var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
+    String path = join(documentsDirectory.path, "working_copy.db");
+    ByteData data = await rootBundle.load(join("assets", "shopping.db"));
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await new io.File(path).writeAsBytes(bytes);
+    var theDb = await openDatabase(path);
     return theDb;
   }
 
