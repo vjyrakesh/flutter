@@ -1,3 +1,5 @@
+/// Model class to represent a shopping item.
+
 class Item {
   String name;
 

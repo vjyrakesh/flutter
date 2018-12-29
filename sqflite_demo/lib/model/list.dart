@@ -1,3 +1,5 @@
+/// Model class to represent a shopping list.
+
 class ShoppingList {
   String listName;
   String createdAt;

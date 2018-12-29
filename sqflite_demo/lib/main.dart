@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite_demo/model/item.dart';
 import 'package:sqflite_demo/database/dbhelper.dart';
 import 'package:sqflite_demo/shopping_list.dart';
+import 'package:sqflite_demo/list_items.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: 'Database Demo',
-      home: ItemListPage()
+      home: ShoppingListItemsPage()
     );
   }
 }
