@@ -63,9 +63,11 @@ class DBHelper {
   }
 
   /// Get all items in a shopping list.
-  Future<List<ShoppingListItem>> getShoppingListItems(int list_id) async {
+  Future<List<ShoppingListItem>> getShoppingListItems(String list_name) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=1");
+    List<Map> item_list = await dbClient.rawQuery("select list_id from lists where list_name=\'${list_name}\'");
+    int list_id = item_list[0]['list_id'];
+    List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=${list_id}");
     List<ShoppingListItem> shoppingListItems = new List();
     for(int i = 0; i < list.length; i++) {
       shoppingListItems.add(new ShoppingListItem(list[i]['item_name'], list[i]['quantity']));

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sqflite_demo/model/list_item.dart';
 import 'package:sqflite_demo/database/dbhelper.dart';
 
-Future<List<ShoppingListItem>> fetchItemsInList() async {
+Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
   var dbHelper = DBHelper();
-  return dbHelper.getShoppingListItems(1);
+  return dbHelper.getShoppingListItems(list_name);
 }
 
 class ShoppingListItemsPage extends StatefulWidget {
@@ -29,7 +29,7 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
       body: Container(
         padding: EdgeInsets.all(12.0),
         child: FutureBuilder<List<ShoppingListItem>>(
-          future: fetchItemsInList(),
+          future: fetchItemsInList('list1'),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
