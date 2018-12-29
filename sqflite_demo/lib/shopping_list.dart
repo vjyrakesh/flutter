@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite_demo/model/list.dart';
 import 'package:sqflite_demo/database/dbhelper.dart';
+import 'package:sqflite_demo/list_items.dart';
 
 Future<List<ShoppingList>> getShoppingLists() async {
   DBHelper dbClient = DBHelper();
@@ -44,6 +45,12 @@ class ShoppingListsState extends State<ShoppingListsPage> {
                             ),
                             title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0),),
                             subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey),),
+                            onTap: () {
+                              Navigator.push(
+                                  context, 
+                                  MaterialPageRoute(builder: (context) => ShoppingListItemsPage(list_name: snapshot.data[index].listName,))
+                              );
+                              },
                           ),
                           Divider()
                         ]

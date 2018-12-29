@@ -65,7 +65,6 @@ class DBHelper {
     shoppingLists.sort((a,b){
       return a.createdAt.compareTo(b.createdAt);
     });
-    print(shoppingLists.toString());
     shoppingLists = shoppingLists.reversed.toList();
     return shoppingLists;
   }
@@ -83,6 +82,10 @@ class DBHelper {
     shoppingListItems.sort((a,b){
       return a.itemName.compareTo(b.itemName);
     });
-    return shoppingListItems;
+    if (shoppingListItems.length > 0)
+      return shoppingListItems;
+    else {
+      return null;
+    }
   }
 }

@@ -8,28 +8,31 @@ Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
 }
 
 class ShoppingListItemsPage extends StatefulWidget {
+  final String list_name;
+  ShoppingListItemsPage({Key key, @required this.list_name}): super(key:key);
+
   @override
   ShoppingListItemsState createState() => ShoppingListItemsState();
 }
 
 class ShoppingListItemsState extends State<ShoppingListItemsPage> {
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    final String list_name = widget.list_name;
     return Scaffold(
       appBar: AppBar(
-        title: Text('list1'),
+        title: Text(list_name),
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
         child: FutureBuilder<List<ShoppingListItem>>(
-          future: fetchItemsInList('list1'),
+          future: fetchItemsInList(list_name),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -52,6 +55,19 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
               );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
+            } else if (!snapshot.hasData) {
+              return Center(
+                child: Container(
+                  alignment: Alignment(0.0, 0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.error, size: 60.0, color: Colors.grey,),
+                      Text('No items in this list', style: TextStyle(fontSize: 32.0, color: Colors.grey),)
+                    ],
+                  ),
+                )
+              );
             }
             return Container(
               alignment: AlignmentDirectional.center,

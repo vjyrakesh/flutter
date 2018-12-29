@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: 'Database Demo',
-      home: ShoppingListItemsPage()
+      home: ShoppingListsPage()
     );
   }
 }
