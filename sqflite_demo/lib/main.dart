@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite_demo/model/item.dart';
 import 'package:sqflite_demo/database/dbhelper.dart';
+import 'package:sqflite_demo/shopping_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,17 +16,17 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: 'Database Demo',
-      home: ItemList()
+      home: ItemListPage()
     );
   }
 }
 
-class ItemList extends StatefulWidget {
+class ItemListPage extends StatefulWidget {
   @override
   ItemListState createState() => ItemListState();
 }
 
-class ItemListState extends State<ItemList> {
+class ItemListState extends State<ItemListPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +38,7 @@ class ItemListState extends State<ItemList> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Database Demo'),
+        title: Text('Items'),
       ),
       body: Container(
           padding: EdgeInsets.all(12.0),
@@ -51,7 +52,10 @@ class ItemListState extends State<ItemList> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(snapshot.data[index].name),
+                            ListTile(
+                              leading: Icon(Icons.arrow_right),
+                              title: Text(snapshot.data[index].name, style: TextStyle(fontSize: 16.0),),
+                            ),
                             Divider()
                           ],
                         );

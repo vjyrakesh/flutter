@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_demo/model/item.dart';
+import 'package:sqflite_demo/model/list.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class DBHelper {
@@ -41,5 +42,15 @@ class DBHelper {
       items.add(new Item(list[i]["item_name"]));
     }
     return items;
+  }
+
+  Future<List<ShoppingList>> getShoppingLists() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("select list_name,list_created_at from lists");
+    List<ShoppingList> shoppingLists = new List();
+    for (int i = 0; i < list.length; i++) {
+      shoppingLists.add(new ShoppingList(list[i]['list_name'], list[i]['list_created_at']));
+    }
+    return shoppingLists;
   }
 }

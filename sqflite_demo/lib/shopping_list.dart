@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:sqflite_demo/model/list.dart';
+import 'package:sqflite_demo/database/dbhelper.dart';
+
+Future<List<ShoppingList>> getShoppingLists() async {
+  DBHelper dbClient = DBHelper();
+  return dbClient.getShoppingLists();
+}
+
+class ShoppingListsPage extends StatefulWidget {
+  @override
+  ShoppingListsState createState() => ShoppingListsState();
+}
+
+class ShoppingListsState extends State<ShoppingListsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shopping Lists'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(12.0),
+        child: FutureBuilder<List<ShoppingList>>(
+            future: getShoppingLists(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.list),
+                            title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0),),
+                            subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey),),
+                          ),
+                          Divider()
+                        ]
+                      );
+                    }
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+              return Container(alignment: AlignmentDirectional.center, child: CircularProgressIndicator(),);
+            }
+        ),
+      ),
+    );
+  }
+}
