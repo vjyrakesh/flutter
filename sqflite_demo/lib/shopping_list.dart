@@ -39,7 +39,9 @@ class ShoppingListsState extends State<ShoppingListsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           ListTile(
-                            leading: Icon(Icons.list),
+                            leading: CircleAvatar(
+                              child: Text(snapshot.data[index].listName[0]),
+                            ),
                             title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0),),
                             subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey),),
                           ),

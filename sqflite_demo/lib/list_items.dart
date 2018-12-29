@@ -39,7 +39,9 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading: Icon(Icons.arrow_right),
+                          leading: CircleAvatar(
+                            child: Text(snapshot.data[index].itemName[0]),
+                          ),
                           title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0),),
                           subtitle: Text('Quantity: ${snapshot.data[index].itemQuantity}', style: TextStyle(color: Colors.grey),),
                         ),

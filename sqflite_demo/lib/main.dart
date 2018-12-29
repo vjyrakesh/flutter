@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: 'Database Demo',
-      home: ShoppingListItemsPage()
+      home: ShoppingListsPage()
     );
   }
 }
@@ -54,7 +54,9 @@ class ItemListState extends State<ItemListPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             ListTile(
-                              leading: Icon(Icons.arrow_right),
+                              leading: CircleAvatar(
+                                child: Text(snapshot.data[index].name[0]),
+                              ),
                               title: Text(snapshot.data[index].name, style: TextStyle(fontSize: 16.0),),
                             ),
                             Divider()
