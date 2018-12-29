@@ -48,6 +48,9 @@ class DBHelper {
     for (int i = 0; i < list.length; i++) {
       items.add(new Item(list[i]["item_name"]));
     }
+    items.sort((a,b){
+      return a.name.compareTo(b.name);
+    });
     return items;
   }
 
@@ -59,6 +62,11 @@ class DBHelper {
     for (int i = 0; i < list.length; i++) {
       shoppingLists.add(new ShoppingList(list[i]['list_name'], list[i]['list_created_at']));
     }
+    shoppingLists.sort((a,b){
+      return a.createdAt.compareTo(b.createdAt);
+    });
+    print(shoppingLists.toString());
+    shoppingLists = shoppingLists.reversed.toList();
     return shoppingLists;
   }
 
@@ -72,6 +80,9 @@ class DBHelper {
     for(int i = 0; i < list.length; i++) {
       shoppingListItems.add(new ShoppingListItem(list[i]['item_name'], list[i]['quantity']));
     }
+    shoppingListItems.sort((a,b){
+      return a.itemName.compareTo(b.itemName);
+    });
     return shoppingListItems;
   }
 }
