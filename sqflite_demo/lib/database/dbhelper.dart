@@ -43,29 +43,22 @@ class DBHelper {
   /// Get the complete list of items from the database.
   Future<List<Item>> getItems() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery("select item_name from items");
+    List<Map> list = await dbClient.rawQuery("select item_name from items order by item_name");
     List<Item> items = new List();
     for (int i = 0; i < list.length; i++) {
       items.add(new Item(list[i]["item_name"]));
     }
-    items.sort((a,b){
-      return a.name.compareTo(b.name);
-    });
     return items;
   }
 
   /// Get all shopping lists.
   Future<List<ShoppingList>> getShoppingLists() async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery("select list_name,list_created_at from lists");
+    List<Map> list = await dbClient.rawQuery("select list_name,list_created_at from lists order by list_created_at desc");
     List<ShoppingList> shoppingLists = new List();
     for (int i = 0; i < list.length; i++) {
       shoppingLists.add(new ShoppingList(list[i]['list_name'], list[i]['list_created_at']));
     }
-    shoppingLists.sort((a,b){
-      return a.createdAt.compareTo(b.createdAt);
-    });
-    shoppingLists = shoppingLists.reversed.toList();
     return shoppingLists;
   }
 

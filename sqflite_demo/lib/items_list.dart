@@ -43,6 +43,8 @@ class ItemListState extends State<ItemListPage> {
                                 child: Text(snapshot.data[index].name[0]),
                               ),
                               title: Text(snapshot.data[index].name, style: TextStyle(fontSize: 16.0),),
+                              trailing: Icon(Icons.add_shopping_cart, color: Colors.green,),
+                              onTap: _showDialog,
                             ),
                             Divider()
                           ],
@@ -56,6 +58,40 @@ class ItemListState extends State<ItemListPage> {
               }
           )
       ),
+    );
+  }
+
+  _showDialog() async {
+    await showDialog<String>(
+        context: context,
+      child: AlertDialog(
+        contentPadding: EdgeInsets.all(12.0),
+        content: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Quantity',
+                  hintText: 'E.g. 100gm'
+                ),
+              ),
+            )
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: Text('Cancel')),
+          FlatButton(
+              onPressed: (){
+
+                Navigator.pop(context);
+                },
+              child: Text('Save'))
+        ],
+      )
     );
   }
 }
