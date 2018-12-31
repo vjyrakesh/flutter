@@ -38,19 +38,21 @@ class ItemListState extends State<ItemListPage> {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final String itemName = snapshot.data[index].name;
+                        final bool itemSaved = shoppingListItemMap.containsKey(itemName);
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             ListTile(
                               leading: CircleAvatar(
-                                child: Text(snapshot.data[index].name[0]),
+                                child: Text(itemName[0]),
                               ),
-                              title: Text(snapshot.data[index].name, style: TextStyle(fontSize: 16.0),),
-                              subtitle: Text('Quantity: ${shoppingListItemMap.containsKey(snapshot.data[index].name)?shoppingListItemMap[snapshot.data[index].name]:''}'),
-                              trailing: Icon(Icons.add_shopping_cart, color: Colors.green,),
+                              title: Text(itemName, style: TextStyle(fontSize: 16.0),),
+                              subtitle: Text('Quantity: ${shoppingListItemMap.containsKey(itemName)?shoppingListItemMap[itemName]:''}'),
+                              trailing: Icon(Icons.add_shopping_cart, color: itemSaved?Colors.green:Colors.grey,),
                               onTap: (){
-                                shoppingListItemMap[snapshot.data[index].name] = '';
-                                currSel = snapshot.data[index].name;
+                                shoppingListItemMap[itemName] = '';
+                                currSel = itemName;
                                 _showDialog();
                               },
                             ),
