@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite_demo/model/item.dart';
 import 'package:sqflite_demo/database/dbhelper.dart';
+import 'package:sqflite_demo/model/list_item.dart';
 
 Future<List<Item>> fetchItemsFromDatabase() async {
   var dbHelper = DBHelper();
@@ -13,6 +14,8 @@ class ItemListPage extends StatefulWidget {
 }
 
 class ItemListState extends State<ItemListPage> {
+  Map<String, String> shoppingListItemMap = new Map();
+  String currSel = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -43,8 +46,13 @@ class ItemListState extends State<ItemListPage> {
                                 child: Text(snapshot.data[index].name[0]),
                               ),
                               title: Text(snapshot.data[index].name, style: TextStyle(fontSize: 16.0),),
+                              subtitle: Text('Quantity: ${shoppingListItemMap.containsKey(snapshot.data[index].name)?shoppingListItemMap[snapshot.data[index].name]:''}'),
                               trailing: Icon(Icons.add_shopping_cart, color: Colors.green,),
-                              onTap: _showDialog,
+                              onTap: (){
+                                  shoppingListItemMap[snapshot.data[index].name] = '';
+                                  currSel = snapshot.data[index].name;
+                                  _showDialog();
+                                },
                             ),
                             Divider()
                           ],
@@ -62,7 +70,8 @@ class ItemListState extends State<ItemListPage> {
   }
 
   _showDialog() async {
-    await showDialog<String>(
+    final textController = new TextEditingController();
+    String retVal = await showDialog<String>(
         context: context,
       child: AlertDialog(
         contentPadding: EdgeInsets.all(12.0),
@@ -74,6 +83,7 @@ class ItemListState extends State<ItemListPage> {
                   labelText: 'Quantity',
                   hintText: 'E.g. 100gm'
                 ),
+                controller: textController,
               ),
             )
           ],
@@ -83,15 +93,20 @@ class ItemListState extends State<ItemListPage> {
               onPressed: (){
                 Navigator.pop(context);
               },
-              child: Text('Cancel')),
+              child: Text('Cancel')
+          ),
           FlatButton(
               onPressed: (){
-
-                Navigator.pop(context);
+                Navigator.pop(context, textController.text);
+//                textController.dispose();
                 },
-              child: Text('Save'))
+              child: Text('Save')
+          )
         ],
       )
     );
+    setState(() {
+      shoppingListItemMap[currSel] = retVal;
+    });
   }
 }
