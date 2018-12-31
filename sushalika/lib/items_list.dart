@@ -28,6 +28,11 @@ class ItemListState extends State<ItemListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Items'),
+        actions: <Widget>[
+          new IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: (){
+            _showListNameDialog();
+          })
+        ],
       ),
       body: Container(
           padding: EdgeInsets.all(12.0),
@@ -53,7 +58,7 @@ class ItemListState extends State<ItemListPage> {
                               onTap: (){
                                 shoppingListItemMap[itemName] = '';
                                 currSel = itemName;
-                                _showDialog();
+                                _showQtyDialog();
                               },
                             ),
                             Divider()
@@ -71,7 +76,7 @@ class ItemListState extends State<ItemListPage> {
     );
   }
 
-  _showDialog() async {
+  _showQtyDialog() async {
     final textController = new TextEditingController();
     String retVal = await showDialog<String>(
         context: context,
@@ -109,6 +114,47 @@ class ItemListState extends State<ItemListPage> {
     );
     setState(() {
       shoppingListItemMap[currSel] = retVal;
+    });
+  }
+
+  _showListNameDialog() async {
+    final textController = new TextEditingController();
+    String retVal = await showDialog<String>(
+        context: context,
+        child: AlertDialog(
+          contentPadding: EdgeInsets.all(12.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                      labelText: 'List Name',
+                      hintText: 'Monthly groceries'
+                  ),
+                  controller: textController,
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: Text('Cancel')
+            ),
+            FlatButton(
+                onPressed: (){
+                  Navigator.pop(context, textController.text);
+//                textController.dispose();
+                },
+                child: Text('Save')
+            )
+          ],
+        )
+    );
+    setState(() {
+      shoppingListItemMap['listName'] = retVal;
     });
   }
 }
