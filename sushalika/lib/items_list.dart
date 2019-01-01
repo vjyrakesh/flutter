@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sushalika/model/item.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/model/list_item.dart';
+import 'package:sushalika/shopping_list.dart';
 
 Future<List<Item>> fetchItemsFromDatabase() async {
   var dbHelper = DBHelper();
   return dbHelper.getItems();
+}
+
+void addShoppingListToDB(String listName) async {
+  var dbHelper = DBHelper();
+  dbHelper.addShoppingList(listName);
 }
 
 class ItemListPage extends StatefulWidget {
@@ -145,7 +151,9 @@ class ItemListState extends State<ItemListPage> {
             ),
             FlatButton(
                 onPressed: (){
+                  addShoppingListToDB(textController.text);
                   Navigator.pop(context, textController.text);
+                  Navigator.pop(context);
 //                textController.dispose();
                 },
                 child: Text('Save')

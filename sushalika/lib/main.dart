@@ -11,7 +11,12 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
         title: 'Database Demo',
-        home: ItemListPage()
+        home: ShoppingListsPage(),
+        routes: <String, WidgetBuilder> {
+          '/itemsListPage': (BuildContext context) => new ItemListPage(),
+          '/shoppingListsPage': (BuildContext context) => new ShoppingListsPage(),
+          '/shoppingListItemsPage': (BuildContext context) => new ShoppingListItemsPage(list_name: '')
+        },
     );
   }
 }

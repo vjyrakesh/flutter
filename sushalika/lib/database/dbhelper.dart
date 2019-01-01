@@ -26,9 +26,12 @@ class DBHelper {
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "working_copy.db");
-    ByteData data = await rootBundle.load(join("assets", "shopping.db"));
-    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    await new io.File(path).writeAsBytes(bytes);
+    if (io.FileSystemEntity.typeSync(path) != io.FileSystemEntityType.notFound) {
+      print(path);
+//      ByteData data = await rootBundle.load(join("assets", "shopping.db"));
+//      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+//      await new io.File(path).writeAsBytes(bytes);
+    }
     var theDb = await openDatabase(path);
     return theDb;
   }
@@ -80,5 +83,11 @@ class DBHelper {
     else {
       return null;
     }
+  }
+
+  void addShoppingList(String listName) async {
+    var dbClient = await db;
+    String now = new DateTime.now().toString();
+    dbClient.rawInsert("insert into lists(list_name,list_created_at) values(\'$listName\',\'$now\')");
   }
 }

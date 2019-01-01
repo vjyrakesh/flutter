@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sushalika/model/list.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/list_items.dart';
+import 'package:sushalika/items_list.dart';
 
 Future<List<ShoppingList>> getShoppingLists() async {
   DBHelper dbClient = DBHelper();
@@ -64,6 +65,11 @@ class ShoppingListsState extends State<ShoppingListsPage> {
             }
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage()));
+          },
+      child: Icon(Icons.add),),
     );
   }
 }
