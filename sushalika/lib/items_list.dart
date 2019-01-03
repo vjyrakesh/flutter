@@ -9,9 +9,9 @@ Future<List<Item>> fetchItemsFromDatabase() async {
   return dbHelper.getItems();
 }
 
-void addShoppingListToDB(String listName) async {
+void addShoppingListItemsToDB(String listName, Map<String,String> listItems) async {
   var dbHelper = DBHelper();
-  dbHelper.addShoppingList(listName);
+  dbHelper.addItemsToShoppingList(listName, listItems);
 }
 
 class ItemListPage extends StatefulWidget {
@@ -151,7 +151,6 @@ class ItemListState extends State<ItemListPage> {
             ),
             FlatButton(
                 onPressed: (){
-                  addShoppingListToDB(textController.text);
                   Navigator.pop(context, textController.text);
                   Navigator.pop(context);
 //                textController.dispose();
@@ -162,7 +161,7 @@ class ItemListState extends State<ItemListPage> {
         )
     );
     setState(() {
-      shoppingListItemMap['listName'] = retVal;
+      addShoppingListItemsToDB(retVal, shoppingListItemMap);
     });
   }
 }

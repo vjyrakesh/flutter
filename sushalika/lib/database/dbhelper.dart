@@ -65,12 +65,25 @@ class DBHelper {
     return shoppingLists;
   }
 
+  Future<int> getListId(String listName) async {
+    var dbClient = await db;
+    List<Map> itemList = await dbClient.rawQuery("select list_id from lists where list_name=\'$listName\'");
+    int listId = itemList[0]['list_id'];
+    return listId;
+  }
+
+  Future<int> getItemId(String itemName) async {
+    var dbClient = await db;
+    List<Map> itemList = await dbClient.rawQuery("select item_id from items where item_name=\'$itemName\'");
+    int itemId = itemList[0]['item_id'];
+    return itemId;
+  }
+
   /// Get all items in a shopping list.
   Future<List<ShoppingListItem>> getShoppingListItems(String list_name) async {
     var dbClient = await db;
-    List<Map> item_list = await dbClient.rawQuery("select list_id from lists where list_name=\'${list_name}\'");
-    int list_id = item_list[0]['list_id'];
-    List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=${list_id}");
+    int listId = await getListId(list_name);
+    List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=$listId");
     List<ShoppingListItem> shoppingListItems = new List();
     for(int i = 0; i < list.length; i++) {
       shoppingListItems.add(new ShoppingListItem(list[i]['item_name'], list[i]['quantity']));
@@ -89,5 +102,19 @@ class DBHelper {
     var dbClient = await db;
     String now = new DateTime.now().toString();
     dbClient.rawInsert("insert into lists(list_name,list_created_at) values(\'$listName\',\'$now\')");
+  }
+
+  void addShoppingListItems(int listId, Map<String,String> listItems) async {
+    var dbClient = await db;
+    listItems.forEach((itemName, quantity) async{
+      int itemId = await getItemId(itemName);
+      await dbClient.rawInsert("insert into list_items values($listId,$itemId,\'$quantity\')");
+    });
+  }
+
+  void addItemsToShoppingList(String listName, Map<String,String> listItems) async {
+    addShoppingList(listName);
+    int listId = await getListId(listName);
+    addShoppingListItems(listId, listItems);
   }
 }
