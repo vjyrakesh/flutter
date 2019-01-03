@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sushalika/model/list_item.dart';
 import 'package:sushalika/database/dbhelper.dart';
+import 'package:sushalika/items_list.dart';
 
 Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
   var dbHelper = DBHelper();
@@ -76,6 +77,17 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () async{
+        List<ShoppingListItem> listItems = await fetchItemsInList(list_name);
+        Map<String,String> listItemsMap = new Map();
+        for (ShoppingListItem oneItem in listItems) {
+          listItemsMap[oneItem.itemName] = oneItem.itemQuantity;
+        }
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){
+          return ItemListPage(listName: list_name, listItems: listItemsMap);
+        }));
+      },
+      child: Icon(Icons.add),)
     );
   }
 }

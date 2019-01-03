@@ -15,6 +15,11 @@ void addShoppingListItemsToDB(String listName, Map<String,String> listItems) asy
 }
 
 class ItemListPage extends StatefulWidget {
+  final String listName;
+  final Map<String,String> listItems;
+
+  ItemListPage({ Key key, @required this.listName, @required this.listItems}): super(key:key);
+
   @override
   ItemListState createState() => ItemListState();
 }
@@ -22,10 +27,13 @@ class ItemListPage extends StatefulWidget {
 class ItemListState extends State<ItemListPage> {
   Map<String, String> shoppingListItemMap = new Map();
   String currSel = '';
+  String listName = 'Untitled';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.listItems != null)
+      this.shoppingListItemMap = widget.listItems;
   }
 
   @override

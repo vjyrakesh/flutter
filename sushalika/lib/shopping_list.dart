@@ -67,7 +67,7 @@ class ShoppingListsState extends State<ShoppingListsPage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage(listName: '',listItems: null,)));
           },
       child: Icon(Icons.add),),
     );
