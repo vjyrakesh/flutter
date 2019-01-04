@@ -37,12 +37,13 @@ class ShoppingListsState extends State<ShoppingListsPage> {
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      String listName = snapshot.data[index].listName;
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             ListTile(
                               leading: CircleAvatar(
-                                child: Text(snapshot.data[index].listName[0]),
+                                child: Text(listName==''?'u':listName[0]),
                               ),
                               title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0),),
                               subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey),),
@@ -67,7 +68,7 @@ class ShoppingListsState extends State<ShoppingListsPage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage(listName: '',listItems: null,)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage(listName: 'Untitled',listItems: null,)));
           },
       child: Icon(Icons.add),),
     );

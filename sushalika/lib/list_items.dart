@@ -80,8 +80,10 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
       floatingActionButton: FloatingActionButton(onPressed: () async{
         List<ShoppingListItem> listItems = await fetchItemsInList(list_name);
         Map<String,String> listItemsMap = new Map();
-        for (ShoppingListItem oneItem in listItems) {
-          listItemsMap[oneItem.itemName] = oneItem.itemQuantity;
+        if (listItems != null) {
+          for (ShoppingListItem oneItem in listItems) {
+            listItemsMap[oneItem.itemName] = oneItem.itemQuantity;
+          }
         }
         Navigator.of(context).push(MaterialPageRoute(builder: (context){
           return ItemListPage(listName: list_name, listItems: listItemsMap);

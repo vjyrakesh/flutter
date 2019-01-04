@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         title: 'Database Demo',
         home: ShoppingListsPage(),
         routes: <String, WidgetBuilder> {
-          '/itemsListPage': (BuildContext context) => new ItemListPage(),
+          '/itemsListPage': (BuildContext context) => new ItemListPage(listName: '', listItems: null,),
           '/shoppingListsPage': (BuildContext context) => new ShoppingListsPage(),
           '/shoppingListItemsPage': (BuildContext context) => new ShoppingListItemsPage(list_name: '')
         },

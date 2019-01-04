@@ -11,8 +11,24 @@ Future<List<Item>> fetchItemsFromDatabase() async {
 
 void addShoppingListItemsToDB(String listName, Map<String,String> listItems) async {
   var dbHelper = DBHelper();
-  dbHelper.addItemsToShoppingList(listName, listItems);
+    dbHelper.addItemsToShoppingList(listName, listItems);
 }
+
+void removeItemsFromShoppingList(String listName) async {
+  var dbHelper = DBHelper();
+  dbHelper.removeItemsFromShoppingList(listName);
+}
+
+void removeShoppingList(String listName) async {
+  var dbHelper = DBHelper();
+  dbHelper.removeShoppingList(listName);
+}
+
+Future<int> getListId(String listName) async {
+  var dbHelper = DBHelper();
+  return dbHelper.getListId(listName);
+}
+
 
 class ItemListPage extends StatefulWidget {
   final String listName;
@@ -34,6 +50,8 @@ class ItemListState extends State<ItemListPage> {
     super.initState();
     if (widget.listItems != null)
       this.shoppingListItemMap = widget.listItems;
+    if (widget.listName != null)
+      this.listName = widget.listName;
   }
 
   @override
@@ -44,7 +62,15 @@ class ItemListState extends State<ItemListPage> {
         title: Text('Items'),
         actions: <Widget>[
           new IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: (){
-            _showListNameDialog();
+            if (this.listName == 'Untitled') {
+              _showListNameDialog();
+            } else {
+              print('in done callback ${shoppingListItemMap.toString()}');
+              removeItemsFromShoppingList(this.listName);
+//              removeShoppingList(this.listName);
+              addShoppingListItemsToDB(this.listName, shoppingListItemMap);
+              Navigator.pop(context);
+            }
           })
         ],
       ),

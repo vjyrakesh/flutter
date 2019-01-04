@@ -28,6 +28,7 @@ class DBHelper {
     String path = join(documentsDirectory.path, "working_copy.db");
     io.FileSystemEntity fileObj = new io.File(path);
     if (!fileObj.existsSync()) {
+//      fileObj.deleteSync();
       ByteData data = await rootBundle.load(join("assets", "shopping.db"));
       List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await new io.File(path).writeAsBytes(bytes);
@@ -68,8 +69,10 @@ class DBHelper {
   Future<int> getListId(String listName) async {
     var dbClient = await db;
     List<Map> itemList = await dbClient.rawQuery("select list_id from lists where list_name=\'$listName\'");
-    int listId = itemList[0]['list_id'];
-    return listId;
+    if (itemList != null && itemList.length > 0)
+      return itemList[0]['list_id'];
+    else
+      return 0;
   }
 
   Future<int> getItemId(String itemName) async {
@@ -83,7 +86,9 @@ class DBHelper {
   Future<List<ShoppingListItem>> getShoppingListItems(String list_name) async {
     var dbClient = await db;
     int listId = await getListId(list_name);
+    print('in getshoppinglistitems $listId');
     List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=$listId");
+    print('in getshoppinglistitems ${list.toString()}');
     List<ShoppingListItem> shoppingListItems = new List();
     for(int i = 0; i < list.length; i++) {
       shoppingListItems.add(new ShoppingListItem(list[i]['item_name'], list[i]['quantity']));
@@ -113,8 +118,25 @@ class DBHelper {
   }
 
   void addItemsToShoppingList(String listName, Map<String,String> listItems) async {
-    addShoppingList(listName);
     int listId = await getListId(listName);
+    if (listId == 0)
+      addShoppingList(listName);
+    print('in additemstoshoppinglist list id: $listId');
+    print('in additemstoshoppinglist  ${listItems.toString()}');
     addShoppingListItems(listId, listItems);
+  }
+
+  void removeItemsFromShoppingList(String listName) async {
+    int listId = await getListId(listName);
+    print('in removeItemsFromShoppingList listId: $listId');
+    var dbClient = await db;
+    await dbClient.rawDelete("delete from list_items where list_id=$listId");
+  }
+
+  void removeShoppingList(String listName) async {
+    int listId = await getListId(listName);
+    print('in removeshoppinglist $listId');
+    var dbClient = await db;
+    await dbClient.rawDelete("delete from lists where list_id=$listId");
   }
 }
