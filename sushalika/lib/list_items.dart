@@ -8,8 +8,14 @@ Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
   return dbHelper.getShoppingListItems(list_name);
 }
 
+Future<int> removeOneItem(String listName, String itemName) async {
+  var dbHelper = DBHelper();
+  return await dbHelper.removeOneItemFromList(listName, itemName);
+}
+
 class ShoppingListItemsPage extends StatefulWidget {
   final String list_name;
+
   ShoppingListItemsPage({Key key, @required this.list_name}): super(key:key);
 
   @override
@@ -17,7 +23,7 @@ class ShoppingListItemsPage extends StatefulWidget {
 }
 
 class ShoppingListItemsState extends State<ShoppingListItemsPage> {
-
+  String removedItem = '';
   @override
   void initState() {
     super.initState();
@@ -35,6 +41,9 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
         child: FutureBuilder<List<ShoppingListItem>>(
           future: fetchItemsInList(list_name),
           builder: (context, snapshot) {
+            if (removedItem != '') {
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text('$removedItem removed from list')));
+            }
             if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data.length,
@@ -42,12 +51,20 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ListTile(
-                          leading: CircleAvatar(
-                            child: Text(snapshot.data[index].itemName[0]),
+                        Dismissible(
+                          key: Key(snapshot.data[index].itemName),
+                          background: Container(color: Colors.red,),
+                          onDismissed: (direction) async {
+                            await removeOneItem(list_name, snapshot.data[index].itemName);
+                            removedItem = snapshot.data[index].itemName;
+                          },
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text(snapshot.data[index].itemName[0]),
+                            ),
+                            title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0),),
+                            subtitle: Text('Quantity: ${snapshot.data[index].itemQuantity}', style: TextStyle(color: Colors.grey),),
                           ),
-                          title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0),),
-                          subtitle: Text('Quantity: ${snapshot.data[index].itemQuantity}', style: TextStyle(color: Colors.grey),),
                         ),
                         Divider(),
                       ],

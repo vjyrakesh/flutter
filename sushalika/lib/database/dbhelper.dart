@@ -159,4 +159,14 @@ class DBHelper {
     var dbClient = await db;
     await dbClient.rawDelete("delete from lists where list_id=$listId");
   }
+
+  Future<int> removeOneItemFromList(String listName, String itemName) async {
+    int listId = await getListId(listName);
+    int itemId = await getItemId(itemName);
+    var dbClient = await db;
+    await dbClient.transaction((txn) async {
+      return await txn.rawDelete("delete from list_items where list_id=$listId and item_id=$itemId");
+    });
+    return 0;
+  }
 }
