@@ -9,14 +9,14 @@ Future<List<Item>> fetchItemsFromDatabase() async {
   return dbHelper.getItems();
 }
 
-void addShoppingListItemsToDB(String listName, Map<String,String> listItems) async {
+Future<int> addShoppingListItemsToDB(String listName, Map<String,String> listItems) async {
   var dbHelper = DBHelper();
-    dbHelper.addItemsToShoppingList(listName, listItems);
+  return await dbHelper.addItemsToShoppingList(listName, listItems);
 }
 
-void removeItemsFromShoppingList(String listName) async {
+Future<int> removeItemsFromShoppingList(String listName) async {
   var dbHelper = DBHelper();
-  dbHelper.removeItemsFromShoppingList(listName);
+  return await dbHelper.removeItemsFromShoppingList(listName);
 }
 
 void removeShoppingList(String listName) async {
@@ -56,19 +56,16 @@ class ItemListState extends State<ItemListPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('Items'),
         actions: <Widget>[
-          new IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: (){
+          new IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: () async {
             if (this.listName == 'Untitled') {
               _showListNameDialog();
             } else {
-              print('in done callback ${shoppingListItemMap.toString()}');
-              removeItemsFromShoppingList(this.listName);
-//              removeShoppingList(this.listName);
-              addShoppingListItemsToDB(this.listName, shoppingListItemMap);
+              await removeItemsFromShoppingList(this.listName);
+              await addShoppingListItemsToDB(this.listName, shoppingListItemMap);
               Navigator.pop(context);
             }
           })
@@ -184,18 +181,22 @@ class ItemListState extends State<ItemListPage> {
                 child: Text('Cancel')
             ),
             FlatButton(
-                onPressed: (){
-                  Navigator.pop(context, textController.text);
-                  Navigator.pop(context);
-//                textController.dispose();
+                onPressed: () async {
+                  print('onPressed called');
+                  int recId = await addShoppingListItemsToDB(textController.text, shoppingListItemMap);
+                  if (recId > 0)
+                    Navigator.pop(context, textController.text);
+                  else {
+//                    return Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error in adding data')));
+                  print('error occurred while addind data $recId');
+                  }
                 },
                 child: Text('Save')
             )
           ],
         )
     );
-    setState(() {
-      addShoppingListItemsToDB(retVal, shoppingListItemMap);
-    });
+
+    Navigator.pop(context);
   }
 }

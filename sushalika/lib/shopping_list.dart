@@ -23,7 +23,6 @@ class ShoppingListsState extends State<ShoppingListsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Lists'),
@@ -67,8 +66,11 @@ class ShoppingListsState extends State<ShoppingListsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){
+          onPressed: () async {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemListPage(listName: 'Untitled',listItems: null,)));
+            setState(() {
+              getShoppingLists();
+            });
           },
       child: Icon(Icons.add),),
     );

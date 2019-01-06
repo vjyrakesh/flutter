@@ -86,9 +86,7 @@ class DBHelper {
   Future<List<ShoppingListItem>> getShoppingListItems(String list_name) async {
     var dbClient = await db;
     int listId = await getListId(list_name);
-    print('in getshoppinglistitems $listId');
     List<Map> list = await dbClient.rawQuery("select item_name,quantity from items i inner join list_items li on i.item_id=li.item_id where list_id=$listId");
-    print('in getshoppinglistitems ${list.toString()}');
     List<ShoppingListItem> shoppingListItems = new List();
     for(int i = 0; i < list.length; i++) {
       shoppingListItems.add(new ShoppingListItem(list[i]['item_name'], list[i]['quantity']));
@@ -103,39 +101,61 @@ class DBHelper {
     }
   }
 
-  void addShoppingList(String listName) async {
+  Future<int> addShoppingList(String listName) async {
     var dbClient = await db;
     String now = new DateTime.now().toString();
-    dbClient.rawInsert("insert into lists(list_name,list_created_at) values(\'$listName\',\'$now\')");
-  }
-
-  void addShoppingListItems(int listId, Map<String,String> listItems) async {
-    var dbClient = await db;
-    listItems.forEach((itemName, quantity) async{
-      int itemId = await getItemId(itemName);
-      await dbClient.rawInsert("insert into list_items values($listId,$itemId,\'$quantity\')");
+    await dbClient.transaction((txn) async {
+      int res = await txn.rawInsert("insert into lists(list_name,list_created_at) values(\'$listName\',\'$now\')");
+      return res;
     });
+    List<Map> resList = await dbClient.rawQuery("select list_id from lists where list_name=\'$listName\'");
+    if (resList.length > 0) {
+      return resList[0]['list_id'];
+    }
+    return 0;
   }
 
-  void addItemsToShoppingList(String listName, Map<String,String> listItems) async {
-    int listId = await getListId(listName);
-    if (listId == 0)
-      addShoppingList(listName);
-    print('in additemstoshoppinglist list id: $listId');
-    print('in additemstoshoppinglist  ${listItems.toString()}');
-    addShoppingListItems(listId, listItems);
-  }
-
-  void removeItemsFromShoppingList(String listName) async {
-    int listId = await getListId(listName);
-    print('in removeItemsFromShoppingList listId: $listId');
+  Future<int> addShoppingListItems(int listId, Map<String,String> listItems) async {
     var dbClient = await db;
-    await dbClient.rawDelete("delete from list_items where list_id=$listId");
+    int res = 0;
+
+    for (var entry in listItems.entries) {
+      String itemName = entry.key;
+      String quantity = entry.value;
+      int itemId = await getItemId(itemName);
+      await dbClient.transaction((txn) async {
+        res = await txn.rawInsert(
+            "insert into list_items values($listId,$itemId,\'$quantity\')");
+      });
+    }
+    return res;
+  }
+
+  Future<int> addItemsToShoppingList(String listName, Map<String,String> listItems) async {
+    int res = 0;
+    int listId = await getListId(listName);
+    if (listId == 0) {
+      listId = await addShoppingList(listName);
+    }
+    if (listItems.length > 0)
+      res = await addShoppingListItems(listId, listItems);
+    else
+      res = listId;
+    return res;
+  }
+
+  Future<int> removeItemsFromShoppingList(String listName) async {
+    int listId = await getListId(listName);
+    int res = 0;
+    var dbClient = await db;
+    await dbClient.transaction((txn) async{
+      res = await txn.rawDelete("delete from list_items where list_id=$listId");
+    });
+    return res;
   }
 
   void removeShoppingList(String listName) async {
     int listId = await getListId(listName);
-    print('in removeshoppinglist $listId');
     var dbClient = await db;
     await dbClient.rawDelete("delete from lists where list_id=$listId");
   }
