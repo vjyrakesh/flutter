@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:async';
+import 'package:my_device_info/about_page.dart';
+import 'package:uuid/uuid.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyDeviceInfo extends StatefulWidget {
+  final String testStr='';
   @override
   MyDeviceInfoState createState() => MyDeviceInfoState();
 }
@@ -29,6 +32,7 @@ class MyDeviceInfoState extends State<MyDeviceInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final String testVal = widget.testStr;
     return Scaffold(
         appBar: AppBar(
           title: Text('My Device Info'),
@@ -45,30 +49,39 @@ class MyDeviceInfoState extends State<MyDeviceInfo> {
 
               return ListView(
                 children: <Widget>[
-                  Card(
-                    child: ListTile(
-                    leading: Icon(Icons.info),
-                    title: Text('Android build version: ${androidDeviceInfo.version.release}',
-                    style: TextStyle(fontSize: 18.0),),
-                    )
-                  ),
-                  Card(
+                  Dismissible(
+                    key: Key(Uuid().v4().toString()),
+                    background: Container(color: Colors.red,),
+                    onDismissed: (direction){
+
+                    },
                     child: ListTile(
                       leading: Icon(Icons.info),
-                      title: Text('Android device: ${androidDeviceInfo.device}', style: TextStyle(fontSize: 18.0),),
+                      title: Text('Android build version: ${androidDeviceInfo.version.release}',
+                        style: TextStyle(fontSize: 18.0),),
                     ),
                   ),
-                  Card(
-                    child: ListTile(
+
+                  ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text('Android device: ${androidDeviceInfo.device}',
+                        style: TextStyle(fontSize: 18.0),),
+                  ),
+                  ListTile(
                       leading: Icon(Icons.info),
                       title: Text('Android device hardware: ${androidDeviceInfo.hardware}', style: TextStyle(fontSize: 18.0),),
                     )
-                  )
                 ],
               );
             }
           },
         ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new AboutPage();}));
+          },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sushalika/model/list_item.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/items_list.dart';
+import 'package:uuid/uuid.dart';
 
 Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
   var dbHelper = DBHelper();
@@ -41,33 +42,30 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
         child: FutureBuilder<List<ShoppingListItem>>(
           future: fetchItemsInList(list_name),
           builder: (context, snapshot) {
-            if (removedItem != '') {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text('$removedItem removed from list')));
-            }
             if (snapshot.hasData) {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Dismissible(
-                          key: Key(snapshot.data[index].itemName),
-                          background: Container(color: Colors.red,),
-                          onDismissed: (direction) async {
-                            await removeOneItem(list_name, snapshot.data[index].itemName);
-                            removedItem = snapshot.data[index].itemName;
-                          },
-                          child: ListTile(
+                    return Dismissible(
+                      key: Key(Uuid().v4().toString()),
+                      background: Container(color: Colors.red,),
+                      onDismissed: (direction) async {
+
+                        removedItem = snapshot.data[index].itemName;
+                        await removeOneItem(list_name, removedItem);
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
                             leading: CircleAvatar(
                               child: Text(snapshot.data[index].itemName[0]),
                             ),
                             title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0),),
                             subtitle: Text('Quantity: ${snapshot.data[index].itemQuantity}', style: TextStyle(color: Colors.grey),),
                           ),
-                        ),
-                        Divider(),
-                      ],
+                          Divider(),
+                        ],
+                      ),
                     );
                   }
               );
