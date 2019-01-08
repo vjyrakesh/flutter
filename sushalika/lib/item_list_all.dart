@@ -60,6 +60,7 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
             } else if (snapshot.hasError) {
               return Text(snapshot.error);
             }
+            return Container(alignment: AlignmentDirectional.center, child: CircularProgressIndicator(),);
           },
         ),
       ),

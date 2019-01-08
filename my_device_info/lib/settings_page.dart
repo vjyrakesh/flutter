@@ -7,6 +7,9 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search, color: Colors.white,), onPressed: null)
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),

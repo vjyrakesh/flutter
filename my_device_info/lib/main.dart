@@ -3,7 +3,7 @@ import 'package:device_info/device_info.dart';
 import 'dart:async';
 import 'package:my_device_info/about_page.dart';
 import 'package:my_device_info/settings_page.dart';
-import 'package:uuid/uuid.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -12,99 +12,46 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My device information',
-      home: MyDeviceInfo(),
+      home: MyHomePage()
     );
   }
 }
 
-class MyDeviceInfo extends StatefulWidget {
-  final String testStr='';
-  @override
-  MyDeviceInfoState createState() => MyDeviceInfoState();
-}
-
-class MyDeviceInfoState extends State<MyDeviceInfo> {
-  DeviceInfoPlugin _deviceInfoPlugin;
-  @override
-  void initState() {
-    super.initState();
-    _deviceInfoPlugin = DeviceInfoPlugin();
-  }
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String testVal = widget.testStr;
+    // TODO: implement build
     return Scaffold(
-        appBar: AppBar(
-          title: Text('My Device Info'),
+      appBar: AppBar(
+        title: Text('My Device Info'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.info, color: Colors.grey,),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new AboutPage(); }));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, color: Colors.grey,),
+              title: Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new SettingsPage(); }));
+              },
+            ),
+          ],
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.info, color: Colors.grey,),
-                title: Text('About'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new AboutPage(); }));
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings, color: Colors.grey,),
-                title: Text('Settings'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new SettingsPage(); }));
-                },
-              ),
-            ],
-          ),
-        ),
-        body: FutureBuilder<AndroidDeviceInfo>(
-          future: _deviceInfoPlugin.androidInfo,
-          builder: (BuildContext context, AsyncSnapshot<AndroidDeviceInfo> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              final androidDeviceInfo = snapshot.data;
-
-              return ListView(
-                children: <Widget>[
-                  Dismissible(
-                    key: Key(Uuid().v4().toString()),
-                    background: Container(color: Colors.red,),
-                    onDismissed: (direction){
-
-                    },
-                    child: ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android build version: ${androidDeviceInfo.version.release}',
-                        style: TextStyle(fontSize: 18.0),),
-                    ),
-                  ),
-
-                  ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android device: ${androidDeviceInfo.device}',
-                        style: TextStyle(fontSize: 18.0),),
-                  ),
-                  ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text('Android device hardware: ${androidDeviceInfo.hardware}', style: TextStyle(fontSize: 18.0),),
-                    )
-                ],
-              );
-            }
-          },
-        ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context){ return new AboutPage();}));
-          },
-        child: Icon(Icons.add),
+      ),
+      body: Center(
+        child: Text('Device Info', style: TextStyle(fontSize: 32.0, color: Colors.grey),),
       ),
     );
   }
 }
+
+

@@ -3,6 +3,7 @@ import 'package:sushalika/model/list.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/list_items.dart';
 import 'package:sushalika/items_list.dart';
+import 'package:sushalika/item_list_all.dart';
 
 Future<List<ShoppingList>> getShoppingLists() async {
   DBHelper dbClient = DBHelper();
@@ -26,6 +27,44 @@ class ShoppingListsState extends State<ShoppingListsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Shopping Lists'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    child: Icon(Icons.account_circle, size: 45.0, color: Colors.white,),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 12.0),
+                    child: Text('Sushalika', style: TextStyle(fontSize: 32.0, color: Colors.white),),
+                  ),
+
+                  Text('Shopping lists, made easy', style: TextStyle(fontSize: 14.0, color: Colors.white70),),
+                ],
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.blue
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.list, color: Colors.grey,),
+              title: Text('All Items', style: TextStyle(fontSize: 18.0),),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context){
+                  return new ItemListCompletePage();
+                }));
+              },
+            ),
+
+          ],
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
