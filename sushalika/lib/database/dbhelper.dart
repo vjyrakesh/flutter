@@ -169,4 +169,13 @@ class DBHelper {
     });
     return 0;
   }
+
+  Future<int> addNewItem(String itemName) async {
+    var dbClient = await db;
+    int res = 0;
+    await dbClient.transaction((txn) async {
+      res = await txn.rawInsert("insert into items(item_name) values(\'$itemName\')");
+    });
+    return res;
+  }
 }

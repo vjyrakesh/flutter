@@ -7,6 +7,10 @@ Future<List<Item>> getItemList() async {
   return dbHelper.getItems();
 }
 
+Future<int> addNewItem(String itemName) async {
+  var dbHelper = DBHelper();
+  return await dbHelper.addNewItem(itemName);
+}
 
 class ItemListCompletePage extends StatefulWidget {
   @override
@@ -27,12 +31,6 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Items'),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: (){
-
-          })
-        ],
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
@@ -65,9 +63,55 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
-
+        _showItemNameDialog();
       },
       child: Icon(Icons.add),),
     );
+  }
+
+  _showItemNameDialog() async {
+    final textController = new TextEditingController();
+    String retVal = await showDialog<String>(
+        context: context,
+        child: AlertDialog(
+          contentPadding: EdgeInsets.all(12.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                      labelText: 'Item Name',
+                      hintText: 'Cinthol soap'
+                  ),
+                  controller: textController,
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                child: Text('Cancel')
+            ),
+            FlatButton(
+                onPressed: () async {
+                  print('onPressed called');
+                  int recId = await addNewItem(textController.text);
+                  if (recId > 0)
+                    Navigator.pop(context, textController.text);
+                  else {
+//                    return Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error in adding data')));
+                    print('error occurred while addind data $recId');
+                  }
+                },
+                child: Text('Save')
+            )
+          ],
+        )
+    );
+
+    Navigator.pop(context);
   }
 }
