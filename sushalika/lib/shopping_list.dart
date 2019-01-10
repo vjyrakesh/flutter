@@ -54,7 +54,7 @@ class ShoppingListsState extends State<ShoppingListsPage> {
             ),
             ListTile(
               leading: Icon(Icons.list, color: Colors.grey,),
-              title: Text('All Items', style: TextStyle(fontSize: 18.0),),
+              title: Text('All Items', style: TextStyle(fontSize: 16.0),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context){
@@ -62,7 +62,26 @@ class ShoppingListsState extends State<ShoppingListsPage> {
                 }));
               },
             ),
+            ListTile(
+              leading: Icon(Icons.info, color: Colors.grey,),
+              title: Text('About', style: TextStyle(fontSize: 16.0),),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context){
 
+                }));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.help, color: Colors.grey,),
+              title: Text('Help', style: TextStyle(fontSize: 16.0),),
+              onTap: (){
+                Navigator.pop(context);
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context){
+
+                }));
+              },
+            ),
           ],
         ),
       ),
