@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/model/item.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<List<Item>> getItemList() async {
   var dbHelper = DBHelper();
@@ -99,19 +100,23 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
                 onPressed: () async {
                   print('onPressed called');
                   int recId = await addNewItem(textController.text);
-                  if (recId > 0)
-                    Navigator.pop(context, textController.text);
-                  else {
-//                    return Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error in adding data')));
-                    print('error occurred while addind data $recId');
+                  recId = 0;
+                  if (recId > 0) {
+                    Fluttertoast.showToast(
+                        msg: '${textController.text} added successfully!'
+                    );
                   }
+                  else {
+                    Fluttertoast.showToast(
+                        msg: 'Could not add ${textController.text}!'
+                    );
+                  }
+                  Navigator.pop(context, textController.text);
                 },
                 child: Text('Save')
             )
           ],
         )
     );
-
-    Navigator.pop(context);
   }
 }

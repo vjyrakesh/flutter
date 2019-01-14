@@ -3,6 +3,7 @@ import 'package:sushalika/model/item.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/model/list_item.dart';
 import 'package:sushalika/shopping_list.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<List<Item>> fetchItemsFromDatabase() async {
   var dbHelper = DBHelper();
@@ -184,12 +185,17 @@ class ItemListState extends State<ItemListPage> {
                 onPressed: () async {
                   print('onPressed called');
                   int recId = await addShoppingListItemsToDB(textController.text, shoppingListItemMap);
-                  if (recId > 0)
-                    Navigator.pop(context, textController.text);
-                  else {
-//                    return Scaffold.of(context).showSnackBar(SnackBar(content: Text('Error in adding data')));
-                  print('error occurred while addind data $recId');
+                  if (recId > 0) {
+                    Fluttertoast.showToast(
+                        msg: '${textController.text} added successfully!'
+                    );
                   }
+                  else {
+                    Fluttertoast.showToast(
+                        msg: 'Could not add ${textController.text}!'
+                    );
+                  }
+                  Navigator.pop(context, textController.text);
                 },
                 child: Text('Save')
             )
