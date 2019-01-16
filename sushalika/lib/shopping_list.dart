@@ -5,6 +5,7 @@ import 'package:sushalika/list_items.dart';
 import 'package:sushalika/items_list.dart';
 import 'package:sushalika/item_list_all.dart';
 import 'package:sushalika/about_page.dart';
+import 'package:sushalika/help_page.dart';
 
 Future<List<ShoppingList>> getShoppingLists() async {
   DBHelper dbClient = DBHelper();
@@ -79,7 +80,7 @@ class ShoppingListsState extends State<ShoppingListsPage> {
               onTap: (){
                 Navigator.pop(context);
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context){
-
+                  return new HelpPage();
                 }));
               },
             ),
