@@ -76,10 +76,10 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
                   child: Container(
                     alignment: Alignment(0.0, 0.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.error, size: 60.0, color: Colors.grey,),
-                        Text('No items in this list', style: TextStyle(fontSize: 32.0, color: Colors.grey),)
+                        Text('No items in this list', style: TextStyle(fontSize: 28.0, color: Colors.grey),)
                       ],
                     ),
                   )
