@@ -37,14 +37,17 @@ class ShoppingListsState extends State<ShoppingListsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(),
+//                  Row(),
+//                  Padding(
+//                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+//                    child: Icon(Icons.account_circle, size: 45.0, color: Colors.white,),
+//                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    child: Icon(Icons.account_circle, size: 45.0, color: Colors.white,),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 12.0),
-                    child: Text('Sushalika', style: TextStyle(fontSize: 32.0, color: Colors.white),),
+                    padding: EdgeInsets.fromLTRB(0.0, 64.0, 0.0, 8.0),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5.0),
+                      child: Text('Sushalika', style: TextStyle(fontSize: 48.0, fontFamily: 'Amperzand', color: Colors.white),),
+                    ),
                   ),
 
                   Text('Shopping lists, made easy', style: TextStyle(fontSize: 14.0, color: Colors.white70),),

@@ -52,6 +52,14 @@ flutter:
     - assets/all_items.png
     - assets/shopping_lists.png
     - assets/view_list_items.png
+
+  fonts:
+    - family: NewBorough
+      fonts:
+        - asset: fonts/NewBorough.ttf
+    - family: Amperzand
+      fonts:
+        - asset: fonts/Amperzand.ttf
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

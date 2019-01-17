@@ -16,7 +16,11 @@ class HelpPage extends StatelessWidget {
 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Sushalika\n', style: TextStyle(fontSize: 32.0),),
+              Padding(
+                padding: EdgeInsets.only(left: 5.0),
+                child: Text('Sushalika\n', style: TextStyle(fontSize: 32.0, fontFamily: 'Amperzand'),),
+              ),
+
               Text('Sushalika is an app to simplify making shopping lists. In this page you will find information about how to use this app.\n', style: TextStyle(fontSize: 16.0),),
               Text('View shopping lists', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
               Text('Launching the app will take you to the home page of the app which is the \'Shopping Lists\' page.'
