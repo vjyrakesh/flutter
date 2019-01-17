@@ -6,7 +6,8 @@ class HelpPage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Help'),
+        title: Text('Help', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
 
@@ -21,10 +22,10 @@ class HelpPage extends StatelessWidget {
                 child: Text('Sushalika\n', style: TextStyle(fontSize: 32.0, fontFamily: 'Amperzand'),),
               ),
 
-              Text('Sushalika is an app to simplify making shopping lists. In this page you will find information about how to use this app.\n', style: TextStyle(fontSize: 16.0),),
-              Text('View shopping lists', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+              Text('Sushalika is an app to simplify making shopping lists. In this page you will find information about how to use this app.\n', style: Theme.of(context).textTheme.body1,),
+              Text('View shopping lists', style: Theme.of(context).textTheme.title,),
               Text('Launching the app will take you to the home page of the app which is the \'Shopping Lists\' page.'
-                  'Here you will find all the shopping lists you have created to far.', style: TextStyle(fontSize: 16.0),),
+                  'Here you will find all the shopping lists you have created to far.', style: Theme.of(context).textTheme.body1,),
 //
               Image.asset('assets/shopping_lists.png', width: 480.0, height: 720.0, fit: BoxFit.contain,),
               Text('Create new shopping list', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),

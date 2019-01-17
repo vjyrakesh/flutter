@@ -11,13 +11,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-        title: 'Database Demo',
+        title: 'Sushalika',
         home: ShoppingListsPage(),
         routes: <String, WidgetBuilder> {
           '/itemsListPage': (BuildContext context) => new ItemListPage(listName: '', listItems: null,),
           '/shoppingListsPage': (BuildContext context) => new ShoppingListsPage(),
           '/shoppingListItemsPage': (BuildContext context) => new ShoppingListItemsPage(list_name: '')
         },
+        theme: ThemeData(
+          primaryColor: Colors.lightGreen[500],
+          accentColor: Colors.lightGreen[500],
+          textTheme: TextTheme(
+            title: TextStyle(fontSize: 22.0, fontFamily: 'Oxygen', fontWeight: FontWeight.bold, color: Colors.lightGreen[900]),
+            body1: TextStyle(fontSize: 18.0, fontFamily: 'Oxygen', color: Colors.lightGreen[700])
+          )
+        ),
     );
   }
 }

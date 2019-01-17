@@ -59,7 +59,8 @@ class ItemListState extends State<ItemListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Items'),
+        title: Text('Items', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
         actions: <Widget>[
           new IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: () async {
             if (this.listName == 'Untitled') {
@@ -89,9 +90,11 @@ class ItemListState extends State<ItemListPage> {
                             ListTile(
                               leading: CircleAvatar(
                                 child: Text(itemName[0]),
+                                backgroundColor: Colors.lightGreen[100],
+                                foregroundColor: Colors.lightGreen[900],
                               ),
-                              title: Text(itemName, style: TextStyle(fontSize: 16.0),),
-                              subtitle: Text('Quantity: ${shoppingListItemMap.containsKey(itemName)?shoppingListItemMap[itemName]:''}'),
+                              title: Text(itemName, style: TextStyle(fontSize: 18.0, color: Colors.lightGreen[700], fontFamily: 'Oxygen'),),
+                              subtitle: Text('Quantity: ${shoppingListItemMap.containsKey(itemName)?shoppingListItemMap[itemName]:''}', style: TextStyle(fontSize: 14.0),),
                               trailing: Icon(Icons.add_shopping_cart, color: itemSaved?Colors.green:Colors.grey,),
                               onTap: (){
                                 shoppingListItemMap[itemName] = '';

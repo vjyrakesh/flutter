@@ -6,7 +6,8 @@ class AboutPage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: Text('About', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(
           child: Column(

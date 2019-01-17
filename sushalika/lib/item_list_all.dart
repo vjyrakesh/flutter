@@ -31,7 +31,8 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Items'),
+        title: Text('Items', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
@@ -49,8 +50,10 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
                       ListTile(
                         leading: CircleAvatar(
                           child: Text(itemName[0]),
+                          backgroundColor: Colors.lightGreen[100],
+                          foregroundColor: Colors.lightGreen[900],
                         ),
-                        title: Text(itemName, style: TextStyle(fontSize: 16.0),),
+                        title: Text(itemName, style: TextStyle(fontSize: 18.0, color: Colors.lightGreen[700], fontFamily: 'Oxygen'),),
                       ),
                       Divider()
                     ],
@@ -66,7 +69,7 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
       floatingActionButton: FloatingActionButton(onPressed: (){
         _showItemNameDialog();
       },
-      child: Icon(Icons.add),),
+      child: Icon(Icons.add, color: Colors.white,),),
     );
   }
 

@@ -35,7 +35,8 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
     final String list_name = widget.list_name;
     return Scaffold(
       appBar: AppBar(
-        title: Text(list_name),
+        title: Text(list_name, style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
@@ -59,8 +60,10 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
                           ListTile(
                             leading: CircleAvatar(
                               child: Text(snapshot.data[index].itemName[0]),
+                              backgroundColor: Colors.lightGreen[100],
+                              foregroundColor: Colors.lightGreen[900],
                             ),
-                            title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0),),
+                            title: Text(snapshot.data[index].itemName, style: TextStyle(fontSize: 18.0, color: Colors.lightGreen[700]),),
                             subtitle: Text('Quantity: ${snapshot.data[index].itemQuantity}', style: TextStyle(color: Colors.grey),),
                           ),
                           Divider(),
@@ -78,8 +81,8 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(Icons.error, size: 60.0, color: Colors.grey,),
-                        Text('No items in this list', style: TextStyle(fontSize: 28.0, color: Colors.grey),)
+                        Icon(Icons.error, size: 60.0, color: Colors.lightGreen,),
+                        Text('No items in this list', style: TextStyle(fontSize: 28.0, color: Colors.lightGreen),)
                       ],
                     ),
                   )
@@ -104,7 +107,7 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
           return ItemListPage(listName: list_name, listItems: listItemsMap);
         }));
       },
-      child: Icon(Icons.add),)
+      child: Icon(Icons.add, color: Colors.white,),)
     );
   }
 }

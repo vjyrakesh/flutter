@@ -28,7 +28,8 @@ class ShoppingListsState extends State<ShoppingListsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shopping Lists'),
+        title: Text('Shopping Lists', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
         child: ListView(
@@ -43,23 +44,29 @@ class ShoppingListsState extends State<ShoppingListsPage> {
 //                    child: Icon(Icons.account_circle, size: 45.0, color: Colors.white,),
 //                  ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 64.0, 0.0, 8.0),
+                    padding: EdgeInsets.fromLTRB(0.0, 60.0, 0.0, 8.0),
                     child: Padding(
                       padding: EdgeInsets.only(left: 5.0),
                       child: Text('Sushalika', style: TextStyle(fontSize: 48.0, fontFamily: 'Amperzand', color: Colors.white),),
                     ),
                   ),
 
-                  Text('Shopping lists, made easy', style: TextStyle(fontSize: 14.0, color: Colors.white70),),
+                  Text('Shopping lists, made easy', style: TextStyle(fontSize: 14.0, color: Colors.white70, fontFamily: 'Oxygen'),),
                 ],
               ),
               decoration: BoxDecoration(
-                  color: Colors.blue
+                  color: Colors.lightGreen,
+                gradient: LinearGradient(colors: [
+                  Colors.lightGreen[900],
+                  Colors.lightGreen[700],
+                  Colors.lightGreen[500],
+                  Colors.lightGreen[400],
+                ])
               ),
             ),
             ListTile(
-              leading: Icon(Icons.list, color: Colors.grey,),
-              title: Text('All Items', style: TextStyle(fontSize: 16.0),),
+              leading: Icon(Icons.list, color: Colors.lightGreen,),
+              title: Text('All Items', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context){
@@ -68,8 +75,8 @@ class ShoppingListsState extends State<ShoppingListsPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.info, color: Colors.grey,),
-              title: Text('About', style: TextStyle(fontSize: 16.0),),
+              leading: Icon(Icons.info, color: Colors.lightGreen,),
+              title: Text('About', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context){
@@ -78,8 +85,8 @@ class ShoppingListsState extends State<ShoppingListsPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.help, color: Colors.grey,),
-              title: Text('Help', style: TextStyle(fontSize: 16.0),),
+              leading: Icon(Icons.help, color: Colors.lightGreen,),
+              title: Text('Help', style: Theme.of(context).textTheme.body1,),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context){
@@ -106,9 +113,11 @@ class ShoppingListsState extends State<ShoppingListsPage> {
                             ListTile(
                               leading: CircleAvatar(
                                 child: Text(listName==''?'u':listName[0]),
+                                backgroundColor: Colors.lightGreen[100],
+                                foregroundColor: Colors.lightGreen[900],
                               ),
-                              title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0),),
-                              subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey),),
+                              title: Text(snapshot.data[index].listName, style: TextStyle(fontSize: 18.0, color: Colors.lightGreen[700]),),
+                              subtitle: Text('Created at ${snapshot.data[index].createdAt}', style: TextStyle(color: Colors.grey, fontSize: 16.0),),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -135,7 +144,7 @@ class ShoppingListsState extends State<ShoppingListsPage> {
               getShoppingLists();
             });
           },
-      child: Icon(Icons.add),),
+      child: Icon(Icons.add, color: Colors.white,),),
     );
   }
 }
