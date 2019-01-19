@@ -38,6 +38,7 @@ class HelpPage extends StatelessWidget {
                   'Once you\'re done adding the items, you can tap the check mark button on the top right corner of the screen to save the list.'
                   'Tapping this button will pop up a dialog asking for the name of the shopping list. Enter the name of the list and tap \'Save\'.'
                   'This will save the list with the items you selected and take you to the shopping lists page where you will see your newly added list.', style: TextStyle(fontSize: 16.0), softWrap: true,),
+              Image.asset('assets/add_list_item_qty.png', width: 480.0, height: 720.0, fit: BoxFit.contain,),
               Image.asset('assets/add_list_items.png', width: 480.0, height: 720.0, fit: BoxFit.contain,),
               Text('View items in shopping list', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
               Text('Tap a shopping list to see the items that have been added to that list.', style: TextStyle(fontSize: 16.0),),
