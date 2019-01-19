@@ -101,9 +101,7 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
             ),
             FlatButton(
                 onPressed: () async {
-                  print('onPressed called');
                   int recId = await addNewItem(textController.text);
-                  recId = 0;
                   if (recId > 0) {
                     Fluttertoast.showToast(
                         msg: '${textController.text} added successfully!'
