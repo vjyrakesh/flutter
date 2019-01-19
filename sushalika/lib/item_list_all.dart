@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/model/item.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sushalika/database/dbitemsupdater.dart';
 
 Future<List<Item>> getItemList() async {
   var dbHelper = DBHelper();
@@ -13,13 +14,32 @@ Future<int> addNewItem(String itemName) async {
   return await dbHelper.addNewItem(itemName);
 }
 
+Future updateItemList() async {
+  var dbHelper = DBHelper();
+  var dbUpdater = DBItemsUpdater();
+  var newItems = await dbUpdater.getItems();
+  var oldItems = await dbHelper.getItems();
+  Set<String> newItemSet = Set();
+  for (var oneNewItem in newItems) {
+    newItemSet.add(oneNewItem.name);
+  }
+  Set<String> oldItemSet = Set();
+  for (var oneOldItem in oldItems) {
+    oldItemSet.add(oneOldItem.name);
+  }
+  var diffItems = newItemSet.difference(oldItemSet);
+  for (var oneDiffItem in diffItems) {
+    await dbHelper.addNewItem(oneDiffItem);
+  }
+}
+
 class ItemListCompletePage extends StatefulWidget {
   @override
   ItemListCompleteState createState() => ItemListCompleteState();
 }
 
 class ItemListCompleteState extends State<ItemListCompletePage> {
-
+  bool stateUpdated = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +53,17 @@ class ItemListCompleteState extends State<ItemListCompletePage> {
       appBar: AppBar(
         title: Text('Items', style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
         iconTheme: IconThemeData(color: Colors.white),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.refresh, color: Colors.white,),
+              onPressed: () async {
+                await updateItemList();
+                setState(() {
+                  stateUpdated = true;
+                });
+              }
+          )
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
