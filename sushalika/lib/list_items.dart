@@ -3,6 +3,7 @@ import 'package:sushalika/model/list_item.dart';
 import 'package:sushalika/database/dbhelper.dart';
 import 'package:sushalika/items_list.dart';
 import 'package:uuid/uuid.dart';
+import 'package:sushalika/track_shopping.dart';
 
 Future<List<ShoppingListItem>> fetchItemsInList(String list_name) async {
   var dbHelper = DBHelper();
@@ -37,6 +38,16 @@ class ShoppingListItemsState extends State<ShoppingListItemsPage> {
       appBar: AppBar(
         title: Text(list_name, style: TextStyle(color: Colors.white, fontFamily: 'Oxygen'),),
         iconTheme: IconThemeData(color: Colors.white),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () {
+              Navigator.of(context).push(new MaterialPageRoute(builder: (context){
+                return TrackShoppingPage(listName: list_name);
+              }));
+            },
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(12.0),
